@@ -1,5 +1,21 @@
+from urllib.parse import urlparse, ParseResult
+
+
 def parse(query: str) -> dict:
-    return {}
+    t=urlparse(query)
+    result = {}
+    if t[4]!="":
+        data=t[4]
+        datalist=data.split("&")
+
+
+        for i in range (len(datalist)):
+            if datalist[i]!="":
+                element=str(datalist[i]).split("=")
+                result[element[0]] = element [1]
+        return result
+    else:
+        return result
 
 
 if __name__ == '__main__':
@@ -11,6 +27,7 @@ if __name__ == '__main__':
 
 
 def parse_cookie(query: str) -> dict:
+
     result = {}
     if query != "":
         datalist = query.split(";")
@@ -23,8 +40,11 @@ def parse_cookie(query: str) -> dict:
         return result
 
 
+
 if __name__ == '__main__':
     assert parse_cookie('name=Dima;') == {'name': 'Dima'}
     assert parse_cookie('') == {}
     assert parse_cookie('name=Dima;age=28;') == {'name': 'Dima', 'age': '28'}
     assert parse_cookie('name=Dima=User;age=28;') == {'name': 'Dima=User', 'age': '28'}
+
+
